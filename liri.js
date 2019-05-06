@@ -44,7 +44,6 @@ switch (command) {
     commander.findMovie(search);
     break;
   case "do-what-it-says":
-    console.log("Searching for what you told me to do...\n");
     commander.doTheThings();
     break;
   default:

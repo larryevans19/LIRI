@@ -10,7 +10,7 @@ const Spotify = require('node-spotify-api');
 const commanderInChief = function () {
 
     //breaker is a separater used to prettify the data printed on the log.txt
-    const breaker = "\n============================================================\n";
+    const breaker = "\n\n============================================================\n\n";
 
     this.findConcert = function (search) {
         const url = `https://rest.bandsintown.com/artists/${search}/events?app_id=codingbootcamp`
@@ -34,21 +34,21 @@ const commanderInChief = function () {
                     `Date of Event: ${moment(apiData.datetime).format('MM/DD/YYYY')}`,
                     `*****************************************************\n`
                 ].join("\n\n")
-                    ;
 
+            
                 // Append concertData and the breaker to log.txt and print concertData to the console
                 fs.appendFile("log.txt", concertData, function (err) {
                     if (err) throw err;
                     else console.log(concertData);
-
                 });
 
             };
 
-        });
+            // fs.appendFile("log.txt", breaker, function (err) {
+            //     if (err) throw err;
+            // });
 
-        fs.appendFile("log.txt", breaker, function (err) {
-            if (err) throw err;
+
 
         });
     };
@@ -129,12 +129,12 @@ const commanderInChief = function () {
             // Loop Through the newly created output array
             let command = inputs[0];
             let rawSearch = inputs[1];
-                if (!rawSearch) {
-                    search = ""
-                } else {
-                    search = rawSearch.split('"')
-                };
-       
+            if (!rawSearch) {
+                search = ""
+            } else {
+                search = rawSearch.split('"')
+            };
+
             const commandment = new commanderInChief()
 
             switch (command) {
