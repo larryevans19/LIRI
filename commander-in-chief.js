@@ -14,7 +14,6 @@ const commanderInChief = function () {
 
     this.findConcert = function (search) {
         const url = `https://rest.bandsintown.com/artists/${search}/events?app_id=codingbootcamp`
-        console.log(search);
 
         axios.get(url).then(function (response) {
 
@@ -129,24 +128,38 @@ const commanderInChief = function () {
 
             // Loop Through the newly created output array
             let command = inputs[0];
-            let rawSearch = inputs[1].split('"');
-            let search = rawSearch[1];
-
-            console.log(command);
-            console.log(search);
-
+            let rawSearch = inputs[1];
+                if (!rawSearch) {
+                    search = ""
+                } else {
+                    search = rawSearch.split('"')
+                };
+       
             const commandment = new commanderInChief()
 
             switch (command) {
+                case "":
+                    console.log("You didn't tell me what to do, so I'm going to search for a concert for a cool band.")
+                    search = "Vulfpeck";
+                    commandment.findConcert(search);
                 case "concert-this":
+                    if (!search) {
+                        search = "Vulfpeck";
+                    }
                     console.log("Searching for that concert...\n");
                     commandment.findConcert(search);
                     break;
                 case "spotify-this-song":
+                    if (!search) {
+                        search = "The Sign Ace of Base";
+                    }
                     console.log("Searching for that tune...\n");
                     commandment.findSong(search);
                     break;
                 case "movie-this":
+                    if (!search) {
+                        search = "Mr. Nobody";
+                    }
                     console.log("Searching for that movie...\n");
                     commandment.findMovie(search);
                     break;
@@ -154,11 +167,7 @@ const commanderInChief = function () {
                     console.log("Please tell me what to do!\n");
                     break;
             }
-            // for (var i = 0; i < inputs.length; i++) {
 
-            //   // Print each element (item) of the array/
-            //   console.log(inputs[i]);
-            // }
         });
 
 

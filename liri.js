@@ -23,14 +23,23 @@ let search = searchArray.join(" ");
 // Perform the command and search
 switch (command) {
   case "concert-this":
+    if (!searchArray[0]) {
+      search = "Vulfpeck";
+    };
     console.log("Searching for that concert...\n");
     commander.findConcert(search);
     break;
   case "spotify-this-song":
+    if (!searchArray[0]) {
+      search = "The Sign Ace of Base";
+    };
     console.log("Searching for that tune...\n");
     commander.findSong(search);
     break;
   case "movie-this":
+    if (!searchArray[0]) {
+      search = "Mr. Nobody";
+    };
     console.log("Searching for that movie...\n");
     commander.findMovie(search);
     break;
