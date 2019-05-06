@@ -3,46 +3,54 @@ const request = require("request");
 const moment = require("moment");
 const axios = require("axios");
 const fs = require("fs");
-const Logjam = require("./logjam");
 const keys = require("./keys.js");
-const spotify = require('node-spotify-api');
+const Spotify = require('node-spotify-api');
 
 //Commander constructor
 const commanderInChief = function () {
 
     //breaker is a separater used to prettify the data printed on the log.txt
-    const breaker = "\n\n============================================================\n\n";
+    const breaker = "\n============================================================\n";
 
     this.findConcert = function (search) {
         const url = `https://rest.bandsintown.com/artists/${search}/events?app_id=codingbootcamp`
+        console.log(search);
 
         axios.get(url).then(function (response) {
 
-            console.log("Length:", response.data.length)
-            console.log(response.data[1].venue.name);
-
             for (let i = 0; i < response.data.length; i++) {
-           
+
+                // Place the response.data into a variable, jsonData.
+                let apiData = response.data[i];
+
+                if (apiData.venue.region === "") {
+                    locale = apiData.venue.country;
+                } else {
+                    locale = apiData.venue.region;
+                };
                 // concertData ends up being the string containing the show data we will print to the console
                 let concertData = [
-                    `\nName of Venue: ${response.data[0].venue.name}`,
-                    `Venue Location: ${response.data[0].venue.city}, ${response.data[0].venue.region}`,
-                    `Date of Event: ${moment(response.data[0].datetime).format('MM/DD/YYYY')}`,
-                    `------------------------------------------------------------`,
+                    `Name of Venue: ${apiData.venue.name}`,
+                    `Venue Location: ${apiData.venue.city}, ${locale}`,
+                    `Date of Event: ${moment(apiData.datetime).format('MM/DD/YYYY')}`,
+                    `*****************************************************\n`
                 ].join("\n\n")
                     ;
 
                 // Append concertData and the breaker to log.txt and print concertData to the console
-                fs.appendFile("log.txt", concertData + breaker, function (err) {
+                fs.appendFile("log.txt", concertData, function (err) {
                     if (err) throw err;
                     else console.log(concertData);
 
                 });
 
-
-
-
             };
+
+        });
+
+        fs.appendFile("log.txt", breaker, function (err) {
+            if (err) throw err;
+
         });
     };
 
@@ -52,18 +60,18 @@ const commanderInChief = function () {
         axios.get(url).then(function (response) {
 
             // Place the response.data into a variable, jsonData.
-            var jsonData = response.data;
+            const apiData = response.data;
 
             // movieData ends up being the string containing the show data we will print to the console
-            var movieData = [
-                `Title: ${jsonData.Title}`,
-                `Release Year: ${jsonData.Released.slice(-4)}`,
-                `IMDB Rating: ${jsonData.imdbRating}`,
-                `Rotten Tomatoes Rating: ${jsonData.Ratings[1].Value}`,
-                `Produced in: ${jsonData.Country}`,
-                `Language: ${jsonData.Language}`,
-                `Plot: ${jsonData.Plot}`,
-                `Actors: ${jsonData.Actors}`
+            const movieData = [
+                `Title: ${apiData.Title}`,
+                `Release Year: ${apiData.Released.slice(-4)}`,
+                `IMDB Rating: ${apiData.imdbRating}`,
+                `Rotten Tomatoes Rating: ${apiData.Ratings[1].Value}`,
+                `Produced in: ${apiData.Country}`,
+                `Language: ${apiData.Language}`,
+                `Plot: ${apiData.Plot}`,
+                `Actors: ${apiData.Actors}`
             ].join("\n\n");
 
             // Append movieData and the breaker to log.txt and print movieData to the console
@@ -76,35 +84,88 @@ const commanderInChief = function () {
     };
 
     this.findSong = function (search) {
-        const url = `http://www.omdbapi.com/?t=${search}&y=&plot=short&apikey=trilogy`
 
-        axios.get(url).then(function (response) {
+        const spotify = new Spotify({
+            id: process.env.SPOTIFY_ID,
+            secret: process.env.SPOTIFY_SECRET
+        });
 
-            // Place the response.data into a variable, jsonData.
-            var jsonData = response.data;
+        spotify.search({ type: 'track', query: search, limit: 1 }, function (err, data) {
+            if (err) {
+                return console.log('Error occurred: ' + err);
+            }
+            // console.log(data);
+            // console.log("Track:", data.tracks.items[0].name)
 
-            // movieData ends up being the string containing the show data we will print to the console
-            var movieData = [
-                `Title: ${jsonData.Title}`,
-                `Release Year: ${jsonData.Released.slice(-4)}`,
-                `IMDB Rating: ${jsonData.imdbRating}`,
-                `Rotten Tomatoes Rating: ${jsonData.Ratings[1].Value}`,
-                `Produced in: ${jsonData.Country}`,
-                `Language: ${jsonData.Language}`,
-                `Plot: ${jsonData.Plot}`,
-                `Actors: ${jsonData.Actors}`
+            const apiData = data.tracks.items[0];
+            // songData ends up being the string containing the show data we will print to the console
+
+            var songData = [
+                `Artist: ${apiData.artists[0].name}`,
+                `Song Title: ${apiData.name}`,
+                `Preview Link: ${apiData.preview_url}`,
+                `From Album: ${apiData.album.name}`,
+
             ].join("\n\n");
 
-            // Append movieData and the breaker to log.txt and print movieData to the console
-            fs.appendFile("log.txt", movieData + breaker, function (err) {
+            // Append songData and the breaker to log.txt and print songData to the console
+            fs.appendFile("log.txt", songData + breaker, function (err) {
                 if (err) throw err;
-                else console.log(movieData);
+                else console.log(songData);
 
             });
         });
     };
-};
 
+    this.doTheThings = function () {
+
+        fs.readFile("random.txt", "utf8", function (err, data) {
+            if (err) {
+                return console.log(err);
+            }
+
+            // Split the string down by comma separation and store the contents into the inputs array.
+            var inputs = data.split(",");
+
+            // Loop Through the newly created output array
+            let command = inputs[0];
+            let rawSearch = inputs[1].split('"');
+            let search = rawSearch[1];
+
+            console.log(command);
+            console.log(search);
+
+            const commandment = new commanderInChief()
+
+            switch (command) {
+                case "concert-this":
+                    console.log("Searching for that concert...\n");
+                    commandment.findConcert(search);
+                    break;
+                case "spotify-this-song":
+                    console.log("Searching for that tune...\n");
+                    commandment.findSong(search);
+                    break;
+                case "movie-this":
+                    console.log("Searching for that movie...\n");
+                    commandment.findMovie(search);
+                    break;
+                default:
+                    console.log("Please tell me what to do!\n");
+                    break;
+            }
+            // for (var i = 0; i < inputs.length; i++) {
+
+            //   // Print each element (item) of the array/
+            //   console.log(inputs[i]);
+            // }
+        });
+
+
+
+
+    }
+};
 
 
 module.exports = commanderInChief;

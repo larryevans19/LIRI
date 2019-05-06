@@ -6,17 +6,21 @@ const commanderInChief = require("./commander-in-chief");
 // Initialize commanderInChief
 const commander = new commanderInChief();
 
-// Break down the arguments array from the CLI
-let [, , command = "concert-this", ...search] = process.argv;
+// Break down the arguments array from the CLI.  Trying to use ES6 as much as I can to push myself
+// and flex!  
 
+let [, , command = "concert-this", ...searchArray] = process.argv;
+
+let search = searchArray.join(" ");
 // Default the search item if there is no input
-if (!search[0]) {
-  search = "Star Trek: Deep Space Nine";
-} else {
-  search = search.join(" ");
-}
-console.log(search);
-// Do what was asked...
+// if (!search[0]) {
+//   search = "Star Trek: Deep Space Nine";
+// } else {
+//   search = search.join(" ");
+// }
+// console.log(search);
+
+// Perform the command and search
 switch (command) {
   case "concert-this":
     console.log("Searching for that concert...\n");
@@ -32,7 +36,7 @@ switch (command) {
     break;
   case "do-what-it-says":
     console.log("Searching for what you told me to do...\n");
-    commander.doTheThings(search);
+    commander.doTheThings();
     break;
   default:
     console.log("Please tell me what to do!\n");
