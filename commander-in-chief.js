@@ -94,11 +94,11 @@ const commanderInChief = function () {
             const apiData = data.tracks.items[0];
             // songData ends up being the string containing the show data we will print to the console
 
-            var songData = [
+            const songData = [
                 `Artist: ${apiData.artists[0].name}`,
                 `Song Title: ${apiData.name}`,
                 `Preview Link: ${apiData.preview_url}`,
-                `From Album: ${apiData.album.name}`,
+                `From the Album: ${apiData.album.name}`,
 
             ].join("\n\n");
 
