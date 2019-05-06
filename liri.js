@@ -9,7 +9,7 @@ const commander = new commanderInChief();
 // Break down the arguments array from the CLI.  Trying to use ES6 as much as I can to push myself
 // and flex!  
 
-let [, , command = "concert-this", ...searchArray] = process.argv;
+let [, , command = "spotify-this-song", ...searchArray] = process.argv;
 
 let search = searchArray.join(" ");
 // Default the search item if there is no input
@@ -47,6 +47,6 @@ switch (command) {
     commander.doTheThings();
     break;
   default:
-    console.log("Please tell me what to do!\n");
+    console.log("Please tell me what to do: concert-this, spotify-this-song, movie-this, or do-what-it-says!\n");
     break;
 }

@@ -44,13 +44,8 @@ const commanderInChief = function () {
 
             };
 
-            // fs.appendFile("log.txt", breaker, function (err) {
-            //     if (err) throw err;
-            // });
-
-
-
         });
+
     };
 
     this.findMovie = function (search) {
