@@ -1,6 +1,6 @@
 # LIRI
 
-**LIRI**stands for Language Interpretation and Recognition Interface, and is the red-headed step-brother of the Speech Interpretation and Recognition Interface iPhone users know as SIRI.  **LIRI** is a command line node app that takes in two parameters from a user as CLI arguments, a _COMMAND_ term and _SEARCH_ term, and then provides the user with useful output data by printing it to the terminal console.
+**LIRI** stands for Language Interpretation and Recognition Interface, and is the red-headed step-brother of the Speech Interpretation and Recognition Interface iPhone users know as SIRI.  **LIRI** is a command line node app that takes in two parameters from a user as CLI arguments, a _COMMAND_ term and _SEARCH_ term, and then provides the user with useful output data by printing it to the terminal console.
 
 **LIRI** features four (4) _COMMAND_ options, with each subsequent _SEARCH_ term representing a different item to search: 
 * _concert-this_ performs a query of the artist provided as the _SEARCH_ term in the Bands In Town API and returns a list of upcoming events showing the venue name, location and the date of the event.
