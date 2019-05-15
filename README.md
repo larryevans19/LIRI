@@ -19,7 +19,7 @@
 The **LIRI** _COMMANDS_ were created in part using a constructor located on the _commander-in-chief.js_ file required by the main _liri.js_ file.  The developer attempted to incorporate as much ES6 Javascript as possible as a self-challenge.
 
 ### DEFAULT SCENARIOS
-**LIRI** features default programming to return results in the event a user enters a _COMMAND_ but fails to enter a subsequent search term, or if the user fails to enter a _COMMAND_ at all.  These defaults results are demonstrated for each scenario below:
+**LIRI** features default programming to return results in the event a user enters a _COMMAND_ but fails to enter a subsequent _SEARCH_ term, or if the user fails to enter a _COMMAND_ at all.  These defaults results are demonstrated for each scenario below:
 * _concert-this_ performs a search for the band Vulfpeck if the user fails to enter a _SEARCH_ term.
 ![](default-concert.gif)
 
