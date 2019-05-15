@@ -29,7 +29,7 @@ The **LIRI** _COMMANDS_ were created in part using a constructor located on the 
 * _movie-this_ performs a search for the movie _Mr. Nobody_ if the user fails to enter a _SEARCH_ term.
 ![](default-movie.gif)
 
-* If the user fails to enter a _COMMAND_, **LIRI** will perform the command _spotify-this-song_ for the song _The Sign by Ace of Base_.
+* If the user fails to enter a _COMMAND_, **LIRI** will perform the _COMMAND spotify-this-song_ for the song _The Sign by Ace of Base_.
 ![](default.gif)
 
 ### BONUS
